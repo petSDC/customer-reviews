@@ -1,0 +1,166 @@
+#shop-reviews .wrapper {
+  font-family: “Graphik Webfont”,-apple-system,BlinkMacSystemFont,“Roboto”,“Droid Sans”,“Segoe UI”,“Helvetica”,Arial,sans-serif;
+}
+
+#shop-reviews .rating {
+  vertical-align: middle;
+  margin: 0px 12px;
+}
+
+#shop-reviews .count {
+  color: #444;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+#shop-reviews .page {
+  color: #444;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+#shop-reviews .icon {
+  margin: 0px 5px;
+}
+
+#shop-reviews .sort {
+  font-size: 14px;
+  color: #444;
+  margin: 0px 10px 0px 20px;
+}
+
+#shop-reviews .select {
+  background-color: white;
+  font-size: 14px;
+}
+
+#shop-reviews .user-wrapper {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-right: 15px;
+}
+
+#shop-reviews .user-img {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  margin: 15px auto 10px auto;
+}
+
+#shop-reviews .username {
+  color: #444;
+}
+
+#shop-reviews .review-wrapper {
+  font-size: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: row;
+}
+
+#shop-reviews .centered {
+  margin: auto;
+}
+
+#shop-reviews .helpfulness-wrapper {
+  height: 50px;
+  width: 30px;
+  margin: auto 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+#shop-reviews .submit-btn {
+  width: 100px;
+  background: #F56400;
+  border-radius: 3px;
+  color: white;
+  font-size: 11px;
+  margin-top: 10px;
+}
+
+#shop-reviews .submit-btn:hover {
+  cursor: pointer;
+}
+
+#shop-reviews .review-txt {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-size: 14px;
+  height: 100px;
+  width: 570px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+#shop-reviews .name {
+  margin: 5px 0px;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-size: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+#shop-reviews .submit-rating {
+  vertical-align: middle;
+  font-size: 16px;
+}
+
+#shop-reviews .form {
+  margin: 5px 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+#shop-reviews .product-img {
+  height: 75px;
+  width: 75px;
+  margin: auto 10px auto 0px;
+}
+
+#shop-reviews .date {
+  color: #444;
+  float: right;
+}
+
+#shop-reviews .review-body {
+  color: #444;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+
+#shop-reviews .link {
+  color: #444;
+  font-size: 85%;
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+
+#shop-reviews .link:hover {
+  text-decoration: underline;
+}
+
+#shop-reviews .product-name {
+  margin: auto 0px;
+}
+
+#shop-reviews .review-head {
+  margin-top: 15px;
+}
+
+#shop-reviews .review-content {
+  width: 415px;
+}
+
+#shop-reviews h4 {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#shop-reviews .review-title {
+  margin-top: 5px;
+}
