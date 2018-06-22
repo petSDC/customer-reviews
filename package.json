@@ -15,7 +15,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "cassandra-driver": "^3.5.0",
     "express": "^4.16.3",
+    "faker": "^4.1.0",
     "mysql": "^2.15.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
