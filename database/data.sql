@@ -14,15 +14,15 @@ CREATE SCHEMA shop_reviews
 		id SERIAL PRIMARY KEY,
 		product VARCHAR(50),
 		img_url VARCHAR(100),
-		shop_id integer REFERENCES shops
+		shop_id integer
 	)
 	CREATE TABLE reviews (
 		id SERIAL PRIMARY KEY,
-		user_id integer REFERENCES users,
-		product_id integer REFERENCES products,
+		user_id integer,
+		product_id integer,
 		date_submitted date,
 		rating integer,
 		review text,
 		helpfulness integer,
-		shop_id integer REFERENCES shops
-	)
+		shop_id integer
+	);
