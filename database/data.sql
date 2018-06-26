@@ -4,7 +4,7 @@ CREATE SCHEMA shop_reviews
 	CREATE TABLE users (
 		id SERIAL PRIMARY KEY,
 		username VARCHAR(50),
-		img_url VARCHAR(100)
+		avatar_url VARCHAR(100)
 	)
 	CREATE TABLE shops (
 		id SERIAL PRIMARY KEY,

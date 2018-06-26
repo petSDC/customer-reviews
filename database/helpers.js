@@ -15,7 +15,7 @@ exports.getReviews = function(productId, callback) {
     if (err) {
       callback(err, null);
     } else { 
-      const queryString = `SELECT reviews.id, users.username, users.img_url AS user_img, products.product, products.img_url AS product_img, reviews.shop_id, reviews.date_submitted, reviews.rating, reviews.review, reviews.helpfulness FROM products INNER JOIN reviews ON reviews.product_id=products.id AND reviews.shop_id=(SELECT shop_id FROM products WHERE products.id=${productId}) INNER JOIN users ON reviews.user_id=users.id`;
+      const queryString = `SELECT reviews.id, users.username, users.avatar_url, products.product, products.img_url, reviews.shop_id, reviews.date_submitted, reviews.rating, reviews.review, reviews.helpfulness FROM products INNER JOIN reviews ON reviews.product_id=products.id AND reviews.shop_id=(SELECT shop_id FROM products WHERE products.id=${productId}) INNER JOIN users ON reviews.user_id=users.id`;
       client.query(`SET search_path TO ${config.searchPath}`)
       .then(() => {
         client.query(queryString, (err, data) => {
