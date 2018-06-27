@@ -13,15 +13,15 @@ const ReviewEntry = (props) => {
       />
       <ReviewUser 
         username={props.data.username} 
-        img={props.data.user_img} 
+        img={props.data.avatar_url} 
       />
       <ReviewBody 
         rating={props.data.rating}
         date={props.data.date_submitted}
         review={props.data.review}
-        img={props.data.product_img}
+        img={props.data.img_url}
         productName={props.data.product}
-        productId={props.data.product_img.slice(68, props.data.product_img.indexOf(".jpg"))}
+        productId={props.data.img_url.slice(68, props.data.img_url.indexOf(".jpg"))}
       />
     </div>
   )

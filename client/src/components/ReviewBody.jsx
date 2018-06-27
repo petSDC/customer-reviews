@@ -17,8 +17,8 @@ const ReviewBody = (props) => {
     "12": "Dec"
   };
 
-  let [month, day, year] = props.date.split("/");
-  let formatted = `${months[month]} ${day}, ${year}`;  
+  let [year, month, day] = props.date.split("-");
+  let formatted = `${months[month]} ${day.slice(0, 2)}, ${year}`;  
   
   return (
     <div className="review-content">
