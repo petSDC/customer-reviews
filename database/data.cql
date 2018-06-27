@@ -20,3 +20,6 @@ CREATE TABLE shop_reviews.reviews (
 	helpfulness INT,
 	PRIMARY KEY (id, product_id))
 WITH CLUSTERING ORDER BY (product_id DESC);
+
+CREATE INDEX IF NOT EXISTS product_id ON shop_reviews.reviews (product_id);
+CREATE INDEX IF NOT EXISTS shop_id ON shop_reviews.reviews (shop_id);

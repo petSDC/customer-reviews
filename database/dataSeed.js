@@ -1,31 +1,35 @@
 const faker = require('faker');
-const connectionOptions = require('../config.js');
+const config = require('../config.js');
 const cassandra = require('cassandra-driver');
 
-const client = new cassandra.Client(connectionOptions);
+const client = new cassandra.Client({
+  contactPoints: [config.host],
+  keyspace: config.searchPath,
+  pooling: {
+    maxRequestsPerConnection: config.max,
+  }
+});
 
 // Users
 const query = 'INSERT INTO reviews (id, username, user_avatar, product_id, shop_id, date_submitted, rating, review, helpfulness) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-const insertUsers = function(n) {
-  console.log(`INSERTING USER DATA PART ${n} OF 1000`);
+const insertReviews = function(n) {
+  console.log(`INSERTING USER DATA PART ${n} OF 5000`);
   let reviewInserts = [];
   for (let i = 0; i < 100; i++) {
     let rows = [];
     for (let j = 0; j < 100; j++) {
+      let productId = faker.random.number({
+        min: 1,
+        max: 10000000,
+      });
       rows[j] = {
         query: query,
         params: [
           faker.random.uuid(),
           faker.internet.userName(),
           faker.internet.avatar(),
-          faker.random.number({
-            min: 1,
-            max: 10000000,
-          }),
-          faker.random.number({
-            min: 1,
-            max: 1000000,
-          }),
+          productId,
+          Math.ceil(productId / 10),
           faker.date.between('2018-03-01', '2018-07-10'),
           faker.random.number({
             min: 1,
@@ -42,8 +46,9 @@ const insertUsers = function(n) {
     reviewInserts.push(client.batch(rows, {prepare: true}));
   }
   Promise.all(reviewInserts)
-  .then(() => n < 1000 ? insertUsers(n + 1) : console.log('OPERATIONS COMPLETE'))
+  .then(() => n < 5000 ? insertReviews(n + 1) : console.timeEnd('seeding'))
   .catch(err => console.log(err));
 }
 
-insertUsers(1);
+console.time('seeding');
+insertReviews(1);

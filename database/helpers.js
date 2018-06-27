@@ -1,19 +1,25 @@
-const connectionOptions = require('../config.js');
+const config = require('../config.js');
 const cassandra = require('cassandra-driver');
 
-const client = new cassandra.Client(connectionOptions);
+const client = new cassandra.Client({
+  contactPoints: [config.host],
+  keyspace: config.searchPath,
+  pooling: {
+    maxRequestsPerConnection: config.max,
+  }
+});
 
 exports.getReviews = function(productId, callback) {
-  console.log(productId);
-  const query = 'SELECT * FROM shop_reviews.reviews WHERE product_id=? ALLOW FILTERING';
-  client.execute(query, [productId], {prepared: true}, (err, data) => {
-    if (err) {
-      console.log(err);
-      callback(err, null);
-    } else {
-      callback(null, data);
-    }
-  });
+  const query1 = `SELECT shop_id FROM shop_reviews.reviews WHERE product_id=${productId} LIMIT 1`;
+  client.execute(query1)
+  .then(result => {
+    const shopId = result.rows[0].shop_id;
+    const query2 = `SELECT * FROM shop_reviews.reviews WHERE shop_id=${shopId}`;
+    client.execute(query2)
+    .then(data => callback(null, data))
+    .catch(err => callback(err, null));
+  })
+  .catch(err => callback(err, null));
 }
 
 exports.postReview = function(data, callback) {
