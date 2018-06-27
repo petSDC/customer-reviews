@@ -18,14 +18,15 @@ exports.getReviews = function(productId, callback) {
       const queryString = `SELECT reviews.id, users.username, users.avatar_url, products.product, products.img_url, reviews.shop_id, reviews.date_submitted, reviews.rating, reviews.review, reviews.helpfulness FROM products INNER JOIN reviews ON reviews.product_id=products.id AND reviews.shop_id=(SELECT shop_id FROM products WHERE products.id=${productId}) INNER JOIN users ON reviews.user_id=users.id`;
       client.query(`SET search_path TO ${config.searchPath}`)
       .then(() => {
-        client.query(queryString, (err, data) => {
+        client.query(queryString)
+        .then(data => {
           release();
-          if (err) {
-            callback(err, null);
-          } else {
-            callback(null, data);
-          }
-        });
+          callback(null, data);
+        })
+        .catch(err =>{
+          release();
+          callback(err, null);
+        })
       })
       .catch(err => callback(err, null));
     }
@@ -37,7 +38,7 @@ exports.postReview = function(postData, callback) {
     if (err) {
       callback(err, null);
     } else {
-      const queryString1 = `INSERT INTO users (username, img_url) VALUES ('${postData.username}', 'https://cdn2.iconfinder.com/data/icons/mixed-icon-collection/100/dog-128.png') RETURNING id`;
+      const queryString1 = `INSERT INTO users (username, avatar_url) VALUES ('${postData.username}', 'https://cdn2.iconfinder.com/data/icons/mixed-icon-collection/100/dog-128.png') RETURNING id`;
       client.query(`SET search_path TO ${config.searchPath}`)
       .then(() => {
         client.query(queryString1)
