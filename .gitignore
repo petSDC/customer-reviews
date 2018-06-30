@@ -2,3 +2,7 @@
 /public/
 config.js
 /coverage
+newrelic.js
+artillery.yml
+artillery.js
+newrelic_agent.log

@@ -26,7 +26,6 @@ class ShopReviews extends React.Component {
     axios.get(`${window.location.pathname}reviews`)
       .then(response => {
         let reviews = response.data.rows;
-        console.log(reviews);
         let count = reviews.length;
         let avgRating = reviews.reduce((acc, val) => {
           return acc + val.rating;

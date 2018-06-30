@@ -1,8 +1,13 @@
+require('newrelic');
 const express = require("express");
+const redis = require('redis');
 const config = require('../config.js');
 const db = require('../database/helpers.js');
 
+const redisPort = config.redisPort;
 const port = process.env.port || 3001;
+
+const client = redis.createClient(redisPort);
 const app = express();
 
 app.use(express.json());
@@ -10,18 +15,31 @@ app.use(express.json());
 app.use("/:id", express.static(__dirname + "/../public"));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header({
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+  });
   next();
 });
 
-app.get("/:id/reviews", (req, res) => {
+const cache = function(req, res, next) {
+  client.get(req.params.id, (err, data) => {
+    if (data) {
+      res.json(data);
+    } else {
+      next();
+    }
+  });
+}
+
+app.get("/:id/reviews", cache, (req, res) => {
   db.getReviews(req.params.id, (err, data) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
     } else {
-      res.send(data);
+      client.setex(req.params.id, 3600, JSON.stringify(data));
+      res.json(data);
     }
   });
 });

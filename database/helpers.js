@@ -1,40 +1,30 @@
 const config = require('../config.js');
 const { Pool } = require('pg');
 
-const pool = new Pool({
+const client = new Pool({
   host: config.host,
   port: config.port,
   database: config.database,
-  max: config.max,
   user: config.user,
   password: config.password,
+  max: config.max,
+  min: config.min,
 });
 
+const getQuery = `SELECT reviews.id, users.username, users.avatar_url, products.product, products.img_url, reviews.shop_id, reviews.date_submitted, reviews.rating, reviews.review, reviews.helpfulness FROM products INNER JOIN reviews ON reviews.product_id=products.id AND reviews.shop_id=(SELECT shop_id FROM products WHERE products.id=$1) INNER JOIN users ON reviews.user_id=users.id`;
+
 exports.getReviews = function(productId, callback) {
-  pool.connect((err, client, release) => {
-    if (err) {
-      callback(err, null);
-    } else { 
-      const queryString = `SELECT reviews.id, users.username, users.avatar_url, products.product, products.img_url, reviews.shop_id, reviews.date_submitted, reviews.rating, reviews.review, reviews.helpfulness FROM products INNER JOIN reviews ON reviews.product_id=products.id AND reviews.shop_id=(SELECT shop_id FROM products WHERE products.id=${productId}) INNER JOIN users ON reviews.user_id=users.id`;
-      client.query(`SET search_path TO ${config.searchPath}`)
-      .then(() => {
-        client.query(queryString)
-        .then(data => {
-          release();
-          callback(null, data);
-        })
-        .catch(err =>{
-          release();
-          callback(err, null);
-        })
-      })
-      .catch(err => callback(err, null));
-    }
-  });
+  client.query(getQuery, [productId])
+  .then(data => {
+    callback(null, data);
+  })
+  .catch(err =>{
+    callback(err, null);
+  })
 }
 
 exports.postReview = function(postData, callback) {
-  pool.connect((err, client, release) => {
+  client.connect((err, client, release) => {
     if (err) {
       callback(err, null);
     } else {
@@ -61,7 +51,7 @@ exports.postReview = function(postData, callback) {
 }
 
 exports.updateReview = function(putData, callback) {
-  pool.connect((err, client, release) => {
+  client.connect((err, client, release) => {
     if (err) {
       callback(err, null);
     } else {
