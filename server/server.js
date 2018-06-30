@@ -77,6 +77,16 @@ app.put("/:id/reviews", (req, res) => {
   });
 });
 
+app.delete("/:id/reviews", (req, res) => {
+  db.deleteReview(req.body.reviewId, (err, data) => {
+    if (err) {
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
+
 app.options("/:id/reviews", (req, res) => {
   res.set({
     "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT"
@@ -84,3 +94,5 @@ app.options("/:id/reviews", (req, res) => {
 });
 
 app.listen(port, () => console.log(`Express server listening on port ${port}`));
+
+
