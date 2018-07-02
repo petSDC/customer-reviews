@@ -6,3 +6,4 @@ newrelic.js
 artillery.yml
 artillery.js
 newrelic_agent.log
+.nyc_output

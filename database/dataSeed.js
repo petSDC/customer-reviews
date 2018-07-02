@@ -77,7 +77,7 @@ const insertProducts = function(n) {
       insertProducts(n + 1);
     } else {
       knex.schema.alterTable('products', table => {
-        table.foreign('shop_id').references('id').inTable('shops');
+        table.foreign('shop_id').references('id').inTable('shops').onDelete('CASCADE');
         table.index('shop_id');
       })
       .then(() => insertReviews(1))
@@ -124,9 +124,9 @@ const insertReviews = function(n) {
       insertReviews(n + 1);
     } else {
       knex.schema.alterTable('reviews', table => {
-        table.foreign('user_id').references('id').inTable('users');
-        table.foreign('product_id').references('id').inTable('products');
-        table.foreign('shop_id').references('id').inTable('shops');
+        table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE');
+        table.foreign('product_id').references('id').inTable('products').onDelete('CASCADE');
+        table.foreign('shop_id').references('id').inTable('shops').onDelete('CASCADE');
       })
       .then(() => console.timeEnd('seeding'))
       .catch(err => console.log(err))
