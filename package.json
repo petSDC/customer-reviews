@@ -16,19 +16,17 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "cluster": "^0.7.7",
     "express": "^4.16.3",
-    "faker": "^4.1.0",
-    "knex": "^0.14.6",
     "newrelic": "^4.2.0",
     "pg": "^7.4.3",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-star-rating-component": "^1.4.1",
-    "redis": "^2.8.0",
     "styled-components": "^3.3.2"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
+    "knex": "^0.14.6",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",

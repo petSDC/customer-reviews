@@ -1,9 +1,11 @@
 /node_modules
-/public/
 config.js
-newrelic.js
 artillery.yml
 artillery.js
 newrelic_agent.log
 .nyc_output
 docker-compose.yml
+database/dataSeed.js
+database/docker-compose.yml
+database/data.sql
+temp/

@@ -1,20 +1,19 @@
 const faker = require('faker');
-const config = require('../config.js');
 const fs = require('fs');
 const knex = require('knex')({
   client: 'pg',
   connection: {
-    host: config.host,
-    user: config.user,
-    password: config.password,
-    database: config.database,
+    host: '13.57.176.135',
+    port: 5432,
+    user: 'nick',
+    password: 'nicknick',
+    database: 'postgres',
   },
   pool: {
-    min: config.min,
-    max: config.max,
+    min: 50,
+    max: 200,
   },
   acquireConnectionTimeout: 600000,
-  searchPath: [config.searchPath],
 });
 
 // Users
@@ -23,10 +22,10 @@ const insertUsers = function(n) {
   let userInserts = [];
   for (let i = 0; i < 100; i++) {
     let rows = [];
-    for (let j = 0; j < 1000; j++) {
+    for (let j = 0; j < 100; j++) {
       rows[j] = {
         username: faker.internet.userName(),
-        img_url: faker.internet.avatar(),
+        avatar_url: faker.internet.avatar(),
       };
     }
     userInserts.push(knex.batchInsert('users', rows));
@@ -42,7 +41,7 @@ const insertShops = function(n) {
   let shopInserts = [];
   for (let i = 0; i < 100; i++) {
     let rows = [];
-    for (let j = 0; j < 1000; j++) {
+    for (let j = 0; j < 100; j++) {
       rows[j] = {
         shop: faker.company.companyName(),
       };
@@ -59,13 +58,13 @@ const insertProducts = function(n) {
   let productInserts = [];
   for (let i = 0; i < 100; i++) {
     let rows = [];
-    for (let j = 0; j < 1000; j++) {
+    for (let j = 0; j < 100; j++) {
       rows[j] = {
         product: faker.commerce.productName(),
         img_url: `https://loremflickr.com/320/320/animals?lock=${faker.random.number(99)}`,
         shop_id: faker.random.number({
           min: 1,
-          max: 1000000,
+          max: 100000,
         }),
       };
     }
@@ -77,8 +76,8 @@ const insertProducts = function(n) {
       insertProducts(n + 1);
     } else {
       knex.schema.alterTable('products', table => {
-        table.foreign('shop_id').references('id').inTable('shops').onDelete('CASCADE');
-        table.index('shop_id');
+        // table.foreign('shop_id').references('id').inTable('shops').onDelete('CASCADE');
+        // table.index('shop_id');
       })
       .then(() => insertReviews(1))
       .catch(err => console.log(err));
@@ -92,17 +91,16 @@ const insertReviews = function(n) {
   let reviewInserts = [];
   for (let i = 0; i < 100; i++) {
     let rows = [];
-    for (let j = 0; j < 1000; j++) {
-      let productId = faker.random.number({
-        min: 1,
-        max: 10000000,
-      });
+    for (let j = 0; j < 100; j++) {
       rows[j] = {
         user_id: faker.random.number({
           min: 1,
-          max: 10000000,
+          max: 1000000,
         }),
-        product_id: productId,
+        product_id: faker.random.number({
+          min: 1,
+          max: 1000000,
+        }),
         date_submitted: faker.date.between('2018-03-01', '2018-07-10'),
         rating: faker.random.number({
           min: 1,
@@ -113,7 +111,6 @@ const insertReviews = function(n) {
           min: -50,
           max: 200,
         }),
-        shop_id: knex('products').where({id: productId}).select('shop_id'),
       };
     }
     reviewInserts.push(knex.batchInsert('reviews', rows));
@@ -124,12 +121,14 @@ const insertReviews = function(n) {
       insertReviews(n + 1);
     } else {
       knex.schema.alterTable('reviews', table => {
-        table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE');
-        table.foreign('product_id').references('id').inTable('products').onDelete('CASCADE');
-        table.foreign('shop_id').references('id').inTable('shops').onDelete('CASCADE');
+        // table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE');
+        // table.foreign('product_id').references('id').inTable('products').onDelete('CASCADE');
+        // table.index('product_id');
+        // table.index('user_id');
       })
       .then(() => console.timeEnd('seeding'))
       .catch(err => console.log(err))
+      .finally(() => knex.destroy())
     }
   })
   .catch(err => console.log(err));

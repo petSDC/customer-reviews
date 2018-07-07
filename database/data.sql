@@ -23,6 +23,7 @@ CREATE SCHEMA shop_reviews
 		date_submitted date,
 		rating integer,
 		review text,
-		helpfulness integer,
-		shop_id integer
+		helpfulness integer
 	);
+
+ALTER ROLE nick SET search_path TO shop_reviews, public;

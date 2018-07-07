@@ -1,9 +1,8 @@
 require('newrelic');
 const express = require('express');
-const config = require('../config.js');
 const db = require('../database/helpers.js');
 
-const port = process.env.port || 3001;
+const port = process.env.PORT || 3001;
 
 const app = express();
 
@@ -22,6 +21,7 @@ app.use((req, res, next) => {
 app.get('/:id/reviews', (req, res) => {
   db.getReviews(req.params.id, (err, data) => {
     if (err) {
+      console.log(err);
       res.sendStatus(500);
     } else {
       res.send(data);
@@ -40,6 +40,7 @@ app.post('/:id/reviews', (req, res) => {
   }
   db.postReview(postData, (err, data) => {
     if (err) {
+      console.log(err);
       res.sendStatus(500);
     } else {
       res.sendStatus(201);
@@ -75,5 +76,3 @@ app.options('/:id/reviews', (req, res) => {
 });
 
 app.listen(port, () => console.log(`Express server listening on port ${port}`));
-
-
